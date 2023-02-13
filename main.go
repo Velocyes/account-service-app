@@ -8,7 +8,6 @@ import (
 func main() {
 	config.InitEnvironment()
 	menu.MenuAuth()
-
 	config.ConnectToDB()
-	
+	config.InitMigration()
 }
