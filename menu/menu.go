@@ -20,14 +20,10 @@ func AuthMenu() {
 		if choice == 1{
 			if controllers.Login() {
 				MainMenu()
-			} else {
-				continue
 			}
 		} else if choice == 2{
 			if controllers.Register() {
 				MainMenu()
-			} else {
-				continue
 			}
 		} else if choice == 0 {
 			break
