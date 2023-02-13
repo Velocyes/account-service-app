@@ -14,6 +14,9 @@ func AuthMenu() {
 		fmt.Printf("Masukan pilihan anda : ")
 		fmt.Scanln(&choice)
 		fmt.Println()
+		if choice <= -1 || choice >= 3 {
+			continue
+		}
 		if choice == 1{
 			if controllers.Login() {
 				MainMenu()
@@ -51,6 +54,9 @@ func MainMenu() {
 		fmt.Printf("Masukan pilihan anda : ")
 		fmt.Scanln(&choice)
 		fmt.Println()
+		if choice <= -1 || choice >= 8 {
+			continue
+		}
 		if choice == 1{
 			controllers.ReadAccount()
 		} else if choice == 2{
