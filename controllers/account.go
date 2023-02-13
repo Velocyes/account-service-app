@@ -7,6 +7,7 @@ import (
 )
 
 func ReadAccount() {
+	fmt.Printf("ID : %d\n", LoggedInUser.ID)
 	fmt.Printf("Nama : %s\n", LoggedInUser.Name)
 	fmt.Printf("Nomor Telepon : %s\n", LoggedInUser.PhoneNumber)
 	fmt.Println()
@@ -39,8 +40,8 @@ func UpdateAccount() {
 }
 
 func DeleteAccount() {
-	queryUpdate := "DELETE FROM users WHERE phone_number = ?"
-	_, errInsert := config.DB.Exec(queryUpdate, LoggedInUser.PhoneNumber)
+	queryUpdate := "DELETE FROM users WHERE id = ?"
+	_, errInsert := config.DB.Exec(queryUpdate, LoggedInUser.ID)
 	if errInsert != nil {
 		fmt.Println(errInsert.Error())
 	} else {

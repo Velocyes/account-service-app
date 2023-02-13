@@ -42,11 +42,13 @@ func Register() bool {
 	queryCreateUser := "SELECT u.phone_number FROM users u WHERE u.phone_number = ?"
 	error := config.DB.QueryRow(queryCreateUser, user.PhoneNumber).Scan(&phoneNumber)
 	if error != nil {
-		_, errInsert := config.DB.Exec("INSERT INTO users (name, phone_number, password) VALUES (?, ?, ?)", user.Name, user.PhoneNumber, user.Password)
+		result, errInsert := config.DB.Exec("INSERT INTO users (name, phone_number, password) VALUES (?, ?, ?)", user.Name, user.PhoneNumber, user.Password)
 		if errInsert != nil {
 			fmt.Println(errInsert.Error())
 			return false
 		} else {
+			id, _ := result.LastInsertId()
+			user.ID = uint(id)
 			LoggedInUser = user
 			fmt.Println("Register success")
 		}
