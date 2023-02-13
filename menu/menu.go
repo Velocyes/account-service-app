@@ -1,10 +1,22 @@
 package menu
 
-import "fmt"
+import (
+	"account-service-app/controllers"
+	"fmt"
+)
 
 func MenuAuth() {
+	choice := -1
 	fmt.Println("1. Register")
 	fmt.Println("2. Login")
+	for choice != 0 {
+		fmt.Scanln(&choice)
+		if choice == 1{
+			controllers.Register()
+		} else if choice == 2{
+			controllers.Login()
+		}
+	}
 }
 
 func MainMenu() {

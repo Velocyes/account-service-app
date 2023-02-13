@@ -10,4 +10,5 @@ func main() {
 	menu.MenuAuth()
 
 	config.ConnectToDB()
+	
 }
