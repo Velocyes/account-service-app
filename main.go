@@ -5,8 +5,13 @@ import (
 	"account-service-app/menu"
 )
 
-func main() {
+func init() {
 	config.InitEnvironment()
 	config.ConnectToDB()
-	menu.MenuAuth()
+}
+
+func main() {
+	if config.DB != nil {
+		menu.AuthMenu()
+	}
 }

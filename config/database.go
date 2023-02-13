@@ -1,15 +1,15 @@
 package config
 
 import (
-	"fmt"
+	"database/sql"
 	"log"
 	"os"
 	"time"
+
 	_ "github.com/go-sql-driver/mysql"
-	"database/sql"
 )
 
-var DB *sql.DB
+var DB *sql.DB = nil
 
 func ConnectToDB() {
 	user := os.Getenv("user")
@@ -17,24 +17,21 @@ func ConnectToDB() {
 	host := os.Getenv("host")
 	port := os.Getenv("port")
 	dbname := os.Getenv("dbname")
-	
-	var connectionString = user + ":" + pass + "@tcp(" + host + ":" + port + ")/" + dbname
 
-	db, err := sql.Open("mysql", connectionString)
-	if err != nil {
-		log.Fatal("error open connection", err.Error())
+	connectionString := user + ":" + pass + "@tcp(" + host + ":" + port + ")/" + dbname
+	db, errOpen := sql.Open("mysql", connectionString)
+	if errOpen != nil {
+		log.Fatal("Error open connection", errOpen.Error())
 	}
-
-	// See "Important settings" section.
 	db.SetConnMaxLifetime(time.Minute * 3)
 	db.SetMaxOpenConns(10)
 	db.SetMaxIdleConns(10)
 
 	errPing := db.Ping()
 	if errPing != nil {
-		log.Fatal("error connect to db", errPing.Error())
+		DB = nil
+		log.Fatal("Error when connecting to db", errPing.Error())
 	} else {
-		fmt.Println("berhasil")
+		DB = db
 	}
-	DB = db
 }
