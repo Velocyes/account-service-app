@@ -2,13 +2,14 @@ package config
 
 import (
 	"fmt"
+	"log"
 	"os"
-
-	"gorm.io/driver/mysql"
-	"gorm.io/gorm"
+	"time"
+	_ "github.com/go-sql-driver/mysql"
+	"database/sql"
 )
 
-var DB *gorm.DB
+var DB *sql.DB
 
 func ConnectToDB() {
 	user := os.Getenv("user")
@@ -16,14 +17,24 @@ func ConnectToDB() {
 	host := os.Getenv("host")
 	port := os.Getenv("port")
 	dbname := os.Getenv("dbname")
+	
+	var connectionString = user + ":" + pass + "@tcp(" + host + ":" + port + ")/" + dbname
 
-	dns := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8&parseTime=True&loc=Local", user, pass, host, port, dbname)
-
-	var err error
-	DB, err = gorm.Open(mysql.Open(dns), &gorm.Config{})
+	db, err := sql.Open("mysql", connectionString)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal("error open connection", err.Error())
 	}
 
-	fmt.Println("Success to Database")
+	// See "Important settings" section.
+	db.SetConnMaxLifetime(time.Minute * 3)
+	db.SetMaxOpenConns(10)
+	db.SetMaxIdleConns(10)
+
+	errPing := db.Ping()
+	if errPing != nil {
+		log.Fatal("error connect to db", errPing.Error())
+	} else {
+		fmt.Println("berhasil")
+	}
+	DB = db
 }
