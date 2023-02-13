@@ -4,6 +4,7 @@ import "gorm.io/gorm"
 
 type Balance struct {
 	gorm.Model
-	UserId int
-	TotalBalance float64
+	UserId       int     `json:"user_id"`
+	User         *User   `gorm:"foreignKey:UserId"`
+	TotalBalance float64 `json:"total_balance"`
 }
