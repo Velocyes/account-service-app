@@ -18,4 +18,6 @@ func validate(val any) (any, bool) {
 	default:
 		return val, true
 	}
+
+	return val, true
 }

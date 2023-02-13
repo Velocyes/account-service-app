@@ -42,7 +42,7 @@ func Register() bool {
 	queryCreateUser := "SELECT u.phone_number FROM users u WHERE u.phone_number = ?"
 	error := config.DB.QueryRow(queryCreateUser, user.PhoneNumber).Scan(&phoneNumber)
 	if error != nil {
-		_, errInsert := config.DB.Exec("INSERT INTO users (name, phone_number, password) VALUES (?, ?, ?)", user.Name, user.PhoneNumber, user.Password)
+		rows, errInsert := config.DB.Exec("INSERT INTO users (name, phone_number, password) VALUES (?, ?, ?)", user.Name, user.PhoneNumber, user.Password)
 		if errInsert != nil {
 			fmt.Println(errInsert.Error())
 			return false
@@ -50,10 +50,19 @@ func Register() bool {
 			LoggedInUser = user
 			fmt.Println("Register success")
 		}
+
+		//insert balance
+		saldo := 0
+		fmt.Printf("Masukan saldo awal user : ")
+		fmt.Scanln(&saldo)
+		user_id, _ := rows.LastInsertId()
+		config.DB.Exec("INSERT INTO balances (user_id, total_balance) VALUES (?, ?)", user_id, saldo)
+
 		return true
 	} else {
 		fmt.Println("Credential is already used")
 	}
+
 	return false
 }
 
