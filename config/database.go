@@ -2,6 +2,7 @@ package config
 
 import (
 	"fmt"
+	"os"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -10,11 +11,11 @@ import (
 var DB *gorm.DB
 
 func ConnectToDB() {
-	user := "findryankp"
-	pass := "passwordfindryan"
-	host := "127.0.0.1"
-	port := "3306"
-	dbname := "account-service-app"
+	user := os.Getenv("user")
+	pass := os.Getenv("pass")
+	host := os.Getenv("host")
+	port := os.Getenv("port")
+	dbname := os.Getenv("dbname")
 
 	dns := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8&parseTime=True&loc=Local", user, pass, host, port, dbname)
 
