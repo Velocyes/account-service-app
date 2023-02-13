@@ -39,8 +39,8 @@ func UpdateAccount() {
 }
 
 func DeleteAccount() {
-	queryUpdate := "DELETE FROM users WHERE id = ?"
-	_, errInsert := config.DB.Exec(queryUpdate, LoggedInUser.ID)
+	queryUpdate := "DELETE FROM users WHERE phone_number = ?"
+	_, errInsert := config.DB.Exec(queryUpdate, LoggedInUser.PhoneNumber)
 	if errInsert != nil {
 		fmt.Println(errInsert.Error())
 	} else {
