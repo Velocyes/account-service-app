@@ -5,7 +5,6 @@ import (
 	"account-service-app/entities"
 	"fmt"
 	_ "log"
-
 )
 
 var LoggedInUser entities.User
@@ -50,5 +49,4 @@ func Login() {
 	} else {
 		LoggedInUser = user
 	}
-	fmt.Println(LoggedInUser)
 }
