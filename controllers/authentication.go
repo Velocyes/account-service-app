@@ -86,7 +86,7 @@ func Register() bool {
 
 		//Insert Initial Balance
 		saldo := 0
-		fmt.Printf("Masukan saldo awal user : ")
+		fmt.Printf("Enter the user's initial balance : ")
 		fmt.Scanln(&saldo)
 		user_id, _ := result.LastInsertId()
 		config.DB.Exec("INSERT INTO balances (user_id, total_balance) VALUES (?, ?)", user_id, saldo)
