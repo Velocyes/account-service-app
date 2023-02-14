@@ -3,8 +3,11 @@ package controllers
 import (
 	"account-service-app/config"
 	"account-service-app/entities"
+	"account-service-app/helpers"
+	"bufio"
 	"fmt"
 	_ "log"
+	"os"
 
 	"golang.org/x/crypto/bcrypt"
 )
@@ -12,19 +15,21 @@ import (
 var LoggedInUser entities.User
 
 func Login() bool {
+	helpers.ClearCmd()
 	user, phoneNumber, password := entities.User{}, "", ""
-	fmt.Printf("Masukan nomor telepon : ")
+
+	fmt.Println("========== Login =========")
+	fmt.Printf("Enter Phone Number : ")
 	fmt.Scanln(&phoneNumber)
-	fmt.Printf("Masukan password : ")
+	fmt.Printf("Enter Password : ")
 	fmt.Scanln(&password)
-	fmt.Println()
+	fmt.Println("==========================")
 
 	querySelectUser := "SELECT u.id, u.name, u.phone_number,u.password FROM users u WHERE u.phone_number = ?"
 	error := config.DB.QueryRow(querySelectUser, phoneNumber).Scan(&user.ID, &user.Name, &user.PhoneNumber, &user.Password)
 	if error != nil {
 		LoggedInUser = entities.User{}
-		fmt.Println("Credential is wrong or user doesn't exists")
-		fmt.Println()
+		fmt.Println("Invalid Phone Number or Password")
 	} else {
 		//check if password is true
 		if CheckPasswordHash(password, user.Password) {
@@ -33,16 +38,25 @@ func Login() bool {
 		}
 
 		LoggedInUser = entities.User{}
-		fmt.Println("Credential is wrong or user doesn't exists")
-		fmt.Println()
+		fmt.Println("Invalid Phone Number or Password")
 	}
+	fmt.Printf("\nPress enter key to continue")
+	fmt.Scanln()
 	return false
 }
 
 func Register() bool {
+	helpers.ClearCmd()
+	fmt.Println("========= Register ========")
 	user, phoneNumber := entities.User{}, ""
 	fmt.Printf("Insert your name : ")
-	fmt.Scanln(&user.Name)
+
+	scanner := bufio.NewScanner(os.Stdin)
+	if scanner.Scan() {
+		text := scanner.Text()
+		user.Name = text
+	}
+
 	fmt.Printf("Insert your phone number : ")
 	fmt.Scanln(&user.PhoneNumber)
 	fmt.Printf("Insert password : ")

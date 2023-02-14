@@ -2,12 +2,16 @@ package controllers
 
 import (
 	"account-service-app/config"
+	"account-service-app/helpers"
 	"fmt"
 )
 
 func Transfer() bool {
+	helpers.ClearCmd()
+	fmt.Println("======= Transfer ========")
+
 	phoneNumber, nominal := "", 0
-	fmt.Println("Enter the recipient's phone number")
+	fmt.Printf("Enter the recipient's phone number : ")
 	fmt.Scanln(&phoneNumber)
 	//cek ada atau tidak
 	CheckUserExist, user := CheckUserExist(phoneNumber)
@@ -16,8 +20,8 @@ func Transfer() bool {
 		return false
 	}
 
-	fmt.Println("Transfer to ", user.Name)
-	fmt.Println("Enter your Transfer nominal")
+	fmt.Println("Transfer to", user.Name)
+	fmt.Printf("Enter your Transfer nominal : ")
 	fmt.Scanln(&nominal)
 	//cek jika nominal tersisa lebih besar dari yang di transfers
 	if saldo := GetSaldo(int(LoggedInUser.ID)); saldo < float64(nominal) {
@@ -56,6 +60,9 @@ type HasilHistoryTransfer struct {
 }
 
 func HistoryTransfer() {
+	helpers.ClearCmd()
+	fmt.Println("======= History Transfer ========")
+
 	rows, err := config.DB.Query("select u.name,b.balance_type,h.total,h.created_at from history_balances h,users u,balance_types b where h.balance_type_id = b.id AND h.user_id_to = u.id AND user_id = ? order by h.id DESC", LoggedInUser.ID)
 	if err != nil {
 		fmt.Println(err.Error())

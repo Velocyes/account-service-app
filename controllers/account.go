@@ -3,21 +3,33 @@ package controllers
 import (
 	"account-service-app/config"
 	"account-service-app/entities"
+	"account-service-app/helpers"
+	"bufio"
 	"errors"
 	"fmt"
+	"os"
 )
 
 func ReadAccount() {
-	fmt.Printf("Nama : %s\n", LoggedInUser.Name)
-	fmt.Printf("Nomor Telepon : %s\n", LoggedInUser.PhoneNumber)
-	fmt.Printf("Saldo : %.2f\n", GetSaldo(int(LoggedInUser.ID)))
+	helpers.ClearCmd()
+	fmt.Println("========= Account ========")
+	fmt.Printf("Nama \t\t: %s\n", LoggedInUser.Name)
+	fmt.Printf("Nomor Telepon \t: %s\n", LoggedInUser.PhoneNumber)
+	fmt.Printf("Saldo \t\t: %.2f\n", GetSaldo(int(LoggedInUser.ID)))
 	fmt.Println()
 }
 
 func UpdateAccount() bool {
+	helpers.ClearCmd()
+	fmt.Println("====== Update Account =======")
 	name, phoneNumber, tempPhoneNumber := "", "", ""
 	fmt.Printf("Insert your new name : ")
-	fmt.Scanln(&name)
+
+	scanner := bufio.NewScanner(os.Stdin)
+	if scanner.Scan() {
+		text := scanner.Text()
+		name = text
+	}
 	fmt.Printf("Insert your new phone number : ")
 	fmt.Scanln(&phoneNumber)
 	fmt.Println()
@@ -57,37 +69,52 @@ func UpdateAccount() bool {
 		} else {
 			LoggedInUser.Name = name
 			LoggedInUser.PhoneNumber = phoneNumber
-			fmt.Println("Update data success")
+			fmt.Println("Update Data Success")
 		}
 	} else {
-		fmt.Println("The phone number is already in use")
+		fmt.Println("The Phone Number is Already in Use")
 	}
 	fmt.Println()
 
 	return true
 }
 
-func DeleteAccount() {
-	queryUpdate := "DELETE FROM users WHERE id = ?"
-	_, errInsert := config.DB.Exec(queryUpdate, LoggedInUser.ID)
-	if errInsert != nil {
-		fmt.Println(errInsert.Error())
-	} else {
-		LoggedInUser = entities.User{}
+func DeleteAccount() bool {
+	helpers.ClearCmd()
+	fmt.Println("======= Delete Account =======")
+	fmt.Println("Are you sure to delete this account ?")
+	fmt.Println("Y -> Yes, N -> No")
+	flag := ""
+	fmt.Scanln(&flag)
+
+	if flag == "Y" || flag == "y" {
+		queryUpdate := "DELETE FROM users WHERE id = ?"
+		_, errInsert := config.DB.Exec(queryUpdate, LoggedInUser.ID)
+		if errInsert != nil {
+			fmt.Println(errInsert.Error())
+		} else {
+			LoggedInUser = entities.User{}
+		}
+
+		return true
 	}
+
+	return true
 }
 
 func ReadUser() {
+	helpers.ClearCmd()
+	fmt.Println("========= PROFILE ========")
+
 	var phoneNumber string
-	fmt.Println("Masukan nomor telepon")
+	fmt.Printf("Enter the phone number :")
 	fmt.Scanln(&phoneNumber)
 	CheckUserExist, user := CheckUserExist(phoneNumber)
 	if !CheckUserExist {
 		fmt.Println("User Not Found")
 	} else {
-		fmt.Println("--User Profile--")
-		fmt.Println("Name :", user.Name)
-		fmt.Println("Number Phone :", user.PhoneNumber)
+		fmt.Println("Name \t\t:", user.Name)
+		fmt.Println("Number Phone \t:", user.PhoneNumber)
 	}
 	fmt.Println()
 }
