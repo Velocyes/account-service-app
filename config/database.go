@@ -18,7 +18,7 @@ func ConnectToDB() {
 	port := os.Getenv("port")
 	dbname := os.Getenv("dbname")
 
-	connectionString := user + ":" + pass + "@tcp(" + host + ":" + port + ")/" + dbname
+	connectionString := user + ":" + pass + "@tcp(" + host + ":" + port + ")/" + dbname + "?charset=utf8mb4&parseTime=True&loc=Local"
 	db, errOpen := sql.Open("mysql", connectionString)
 	if errOpen != nil {
 		log.Fatal("Error open connection", errOpen.Error())
