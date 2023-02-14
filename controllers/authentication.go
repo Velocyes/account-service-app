@@ -18,13 +18,12 @@ var LoggedInUser entities.User
 func Login() bool {
 	helpers.ClearCmd()
 	user, phoneNumber, password := entities.User{}, "", ""
-
-	fmt.Println("========== Login =========")
-	fmt.Printf("Enter Phone Number : ")
+	fmt.Println("=============== Login ==============")
+	fmt.Printf("Enter Phone Number \t: ")
 	fmt.Scanln(&phoneNumber)
-	fmt.Printf("Enter Password : ")
+	fmt.Printf("Enter Password \t\t: ")
 	fmt.Scanln(&password)
-	fmt.Println("==========================")
+	fmt.Println()
 
 	querySelectUser := "SELECT u.id, u.name, u.phone_number,u.password FROM users u WHERE u.phone_number = ?"
 	error := config.DB.QueryRow(querySelectUser, phoneNumber).Scan(&user.ID, &user.Name, &user.PhoneNumber, &user.Password)
@@ -41,16 +40,14 @@ func Login() bool {
 		LoggedInUser = entities.User{}
 		fmt.Println("Invalid Phone Number or Password")
 	}
-	fmt.Printf("\nPress enter key to continue")
-	fmt.Scanln()
 	return false
 }
 
 func Register() bool {
 	helpers.ClearCmd()
-	fmt.Println("========= Register ========")
+	fmt.Println("============= Register =============")
 	user, phoneNumber := entities.User{}, ""
-	fmt.Printf("Insert your name : ")
+	fmt.Printf("Insert Name \t\t: ")
 
 	scanner := bufio.NewScanner(os.Stdin)
 	if scanner.Scan() {
@@ -58,9 +55,9 @@ func Register() bool {
 		user.Name = text
 	}
 
-	fmt.Printf("Insert your phone number : ")
+	fmt.Printf("Insert Phone Number \t: ")
 	fmt.Scanln(&user.PhoneNumber)
-	fmt.Printf("Insert password : ")
+	fmt.Printf("Insert Password \t: ")
 	fmt.Scanln(&user.Password)
 	fmt.Println()
 
@@ -118,11 +115,12 @@ func Register() bool {
 	} else {
 		fmt.Println("Credential is aslready used")
 	}
-
 	return false
 }
 
 func Logout() {
+	helpers.ClearCmd()
+	fmt.Println("Logout successfully")
 	LoggedInUser = entities.User{}
 }
 

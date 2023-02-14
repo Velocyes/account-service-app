@@ -35,6 +35,8 @@ func AuthMenu() {
 		} else {
 			fmt.Println("Option not available")
 		}
+
+		helpers.DelayKey()
 	}
 }
 
@@ -46,10 +48,11 @@ func MainMenu() {
 			AuthMenu()
 		}
 
-		fmt.Println("========== MENU =========")
-		fmt.Printf("Welcome, %s\n", controllers.LoggedInUser.Name)
-		fmt.Println("_________________________")
+		fmt.Printf("Welcome !, ")
+		fmt.Println(controllers.LoggedInUser.Name)
+		fmt.Println("-------------------------")
 
+		fmt.Println("========== MENU =========")
 		fmt.Println("1. Read Account")
 		fmt.Println("2. Update Account")
 		fmt.Println("3. Delete Account")
@@ -58,7 +61,7 @@ func MainMenu() {
 		fmt.Println("6. History Top Up")
 		fmt.Println("7. History Transfer")
 		fmt.Println("8. Profile Another User")
-		fmt.Println("0. Exit")
+		fmt.Println("0. Logout")
 		fmt.Println("=========================")
 		fmt.Printf("Enter your choice : ")
 		fmt.Scanln(&choice)
@@ -87,7 +90,6 @@ func MainMenu() {
 			break
 		}
 
-		fmt.Printf("\nPress enter key to continue")
-		fmt.Scanln()
+		helpers.DelayKey()
 	}
 }

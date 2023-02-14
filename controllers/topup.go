@@ -11,11 +11,12 @@ import (
 
 func TopUp() bool {
 	helpers.ClearCmd()
-	fmt.Println("========= Top-Up =========")
+	fmt.Println("============== Top-Up ==============")
 
 	nominal := 0
 	fmt.Printf("Enter your Top-Up nominal : ")
 	fmt.Scanln(&nominal)
+	fmt.Println()
 
 	if nominal < 100 {
 		fmt.Println("Minimum Top-Up is 100")
@@ -30,7 +31,6 @@ func TopUp() bool {
 			fmt.Println("Top-up failed")
 		}
 		fmt.Println("Top-up success!")
-		fmt.Println()
 	}
 
 	return true
@@ -38,15 +38,14 @@ func TopUp() bool {
 
 func HistoryTopups() {
 	helpers.ClearCmd()
-	fmt.Println("======= History Top-Up ========")
-
+	fmt.Println("========== History Top-Up ==========")
+	fmt.Println()
 	rows, err := config.DB.Query("SELECT hb.total, hb.created_at FROM history_balances hb WHERE hb.user_id = ? AND hb.balance_type_id = 1 order by hb.id DESC", LoggedInUser.ID)
 	if err != nil {
 		fmt.Println(err.Error())
 		return
 	}
 
-	fmt.Println("Top-up history :")
 	for rows.Next() {
 		historyBalance := entities.HistoryBalance{}
 		rows.Scan(
@@ -54,7 +53,6 @@ func HistoryTopups() {
 			&historyBalance.CreatedAt,
 		)
 
-		fmt.Println(strconv.Itoa(historyBalance.Total) + " | " + historyBalance.CreatedAt.Format(time.RFC1123))
+		fmt.Println(strconv.Itoa(historyBalance.Total) + "\t| " + historyBalance.CreatedAt.Format(time.RFC1123))
 	}
-	fmt.Println()
 }
