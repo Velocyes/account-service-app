@@ -88,7 +88,7 @@ func Register() bool {
 	_, err := strconv.Atoi(user.PhoneNumber)
 	if err != nil {
 		fmt.Println("Phone number only for integer input.")
-		return flag
+		return false
 	}
 
 	queryCreateUser := "SELECT u.phone_number FROM users u WHERE u.phone_number = ?"

@@ -54,7 +54,7 @@ func UpdateAccount() bool {
 	_, err := strconv.Atoi(phoneNumber)
 	if err != nil {
 		fmt.Println("Phone number only for integer input.")
-		return flag
+		return false
 	}
 
 	var error error
