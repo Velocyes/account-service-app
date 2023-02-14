@@ -11,6 +11,7 @@ func init() {
 }
 
 func main() {
+	defer config.DB.Close()
 	if config.DB != nil {
 		menu.AuthMenu()
 	}

@@ -42,8 +42,8 @@ func UpdateAccount() bool {
 	if phoneNumber == LoggedInUser.PhoneNumber {
 		tempPhoneNumber = phoneNumber
 
-		//make error for update validation
-		error = errors.New("dummy error")
+		//Make error for update validation
+		error = errors.New("Dummy error")
 	} else {
 		querySelectUser := "SELECT u.phone_number FROM users u WHERE u.phone_number = ?"
 		error = config.DB.QueryRow(querySelectUser, phoneNumber).Scan(&tempPhoneNumber)
