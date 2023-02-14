@@ -29,7 +29,11 @@ func AuthMenu() {
 				MainMenu()
 			}
 		} else if choice == 0 {
+			helpers.ClearCmd()
+			helpers.CloseCmd()
 			break
+		} else {
+			fmt.Println("Option not available")
 		}
 	}
 }

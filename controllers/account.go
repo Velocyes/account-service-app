@@ -8,6 +8,7 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"strconv"
 )
 
 func ReadAccount() {
@@ -50,12 +51,18 @@ func UpdateAccount() bool {
 		return flag
 	}
 
+	_, err := strconv.Atoi(phoneNumber)
+	if err != nil {
+		fmt.Println("Phone number only for integer input.")
+		return flag
+	}
+
 	var error error
 	if phoneNumber == LoggedInUser.PhoneNumber {
 		tempPhoneNumber = phoneNumber
 
 		//Make error for update validation
-		error = errors.New("Dummy error")
+		error = errors.New("dummy error")
 	} else {
 		querySelectUser := "SELECT u.phone_number FROM users u WHERE u.phone_number = ?"
 		error = config.DB.QueryRow(querySelectUser, phoneNumber).Scan(&tempPhoneNumber)

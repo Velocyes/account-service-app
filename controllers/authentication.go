@@ -8,6 +8,7 @@ import (
 	"fmt"
 	_ "log"
 	"os"
+	"strconv"
 
 	"golang.org/x/crypto/bcrypt"
 )
@@ -81,6 +82,12 @@ func Register() bool {
 
 	if !flag {
 		fmt.Println(" Cannot be null.")
+		return flag
+	}
+
+	_, err := strconv.Atoi(user.PhoneNumber)
+	if err != nil {
+		fmt.Println("Phone number only for integer input.")
 		return flag
 	}
 
