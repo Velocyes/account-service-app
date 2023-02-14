@@ -7,20 +7,26 @@ import (
 
 func Transfer() bool {
 	phoneNumber, nominal := "", 0
-	fmt.Println("Masukan nomer telepon penerima")
+	fmt.Println("Enter the recipient's phone number")
 	fmt.Scanln(&phoneNumber)
 	//cek ada atau tidak
 	CheckUserExist, user := CheckUserExist(phoneNumber)
 	if !CheckUserExist {
-		fmt.Println("Data penerima tidak ada")
+		fmt.Println("Recipient's data not found")
 		return false
 	}
 
-	fmt.Println("Masukan nominal")
+	fmt.Println("Transfer to ", user.Name)
+	fmt.Println("Enter your Transfer nominal")
 	fmt.Scanln(&nominal)
 	//cek jika nominal tersisa lebih besar dari yang di transfers
 	if saldo := GetSaldo(int(LoggedInUser.ID)); saldo < float64(nominal) {
-		fmt.Println("Saldo tidak mencukupi")
+		fmt.Println("Your balance is insufficient")
+		return false
+	}
+
+	if nominal < 100 {
+		fmt.Println("Minimum Transfer is 100")
 		return false
 	}
 
@@ -66,6 +72,6 @@ func HistoryTransfer() {
 			&response.Date,
 		)
 
-		fmt.Println(response.Total + " | Penerima : " + response.UserPenerima + ", " + response.Date)
+		fmt.Println(response.Total + " | Recipient : " + response.UserPenerima + ", " + response.Date)
 	}
 }

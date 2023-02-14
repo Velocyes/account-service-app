@@ -3,6 +3,7 @@ package controllers
 import (
 	"account-service-app/config"
 	"account-service-app/entities"
+	"errors"
 	"fmt"
 )
 
@@ -37,8 +38,17 @@ func UpdateAccount() bool {
 		return flag
 	}
 
-	querySelectUser := "SELECT u.phone_number FROM users u WHERE u.phone_number = ?"
-	error := config.DB.QueryRow(querySelectUser, phoneNumber).Scan(&tempPhoneNumber)
+	var error error
+	if phoneNumber == LoggedInUser.PhoneNumber {
+		tempPhoneNumber = phoneNumber
+
+		//make error for update validation
+		error = errors.New("dummy error")
+	} else {
+		querySelectUser := "SELECT u.phone_number FROM users u WHERE u.phone_number = ?"
+		error = config.DB.QueryRow(querySelectUser, phoneNumber).Scan(&tempPhoneNumber)
+	}
+
 	if error != nil {
 		queryUpdateUser := "UPDATE users SET name = ?, phone_number = ? WHERE id = ?"
 		_, errInsert := config.DB.Exec(queryUpdateUser, name, phoneNumber, LoggedInUser.ID)
@@ -47,10 +57,10 @@ func UpdateAccount() bool {
 		} else {
 			LoggedInUser.Name = name
 			LoggedInUser.PhoneNumber = phoneNumber
-			fmt.Println("Update data berhasil")
+			fmt.Println("Update data success")
 		}
 	} else {
-		fmt.Println("Nomor telepon sudah digunakan")
+		fmt.Println("The phone number is already in use")
 	}
 	fmt.Println()
 

@@ -8,10 +8,15 @@ import (
 	"time"
 )
 
-func TopUp() {
+func TopUp() bool {
 	nominal := 0
-	fmt.Printf("Masukan nominal top-up : ")
+	fmt.Printf("Enter your Top-Up nominal : ")
 	fmt.Scanln(&nominal)
+
+	if nominal < 100 {
+		fmt.Println("Minimum Top-Up is 100")
+		return false
+	}
 
 	//Menambahkan saldo top-up ke user
 	if ChangeSaldo(int(LoggedInUser.ID), float64(nominal)) {
@@ -23,6 +28,8 @@ func TopUp() {
 		fmt.Println("Top-up success!")
 		fmt.Println()
 	}
+
+	return true
 }
 
 func HistoryTopups() {
