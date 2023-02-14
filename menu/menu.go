@@ -50,7 +50,7 @@ func MainMenu() {
 		fmt.Printf("Masukan pilihan anda : ")
 		fmt.Scanln(&choice)
 		fmt.Println()
-		if choice <= -1 || choice > 8 {
+		if choice <= -1 || choice >= 9 {
 			continue
 		}
 		if choice == 1 {
