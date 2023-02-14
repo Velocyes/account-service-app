@@ -2,18 +2,21 @@ package menu
 
 import (
 	"account-service-app/controllers"
+	"account-service-app/helpers"
 	"fmt"
 )
 
 func AuthMenu() {
 	choice := -2
 	for choice != -1 {
-		fmt.Println("1. Login")
-		fmt.Println("2. Register")
-		fmt.Println("0. Exit")
-		fmt.Printf("Masukan pilihan anda : ")
+		helpers.ClearCmd()
+		fmt.Println("========== AUTH =========")
+		fmt.Println("\t1. Login")
+		fmt.Println("\t2. Register")
+		fmt.Println("\t0. Exit")
+		fmt.Println("=========================")
+		fmt.Printf("Enter your choice : ")
 		fmt.Scanln(&choice)
-		fmt.Println()
 		if choice <= -1 || choice >= 3 {
 			continue
 		}
@@ -34,10 +37,15 @@ func AuthMenu() {
 func MainMenu() {
 	choice := -2
 	for choice != -1 {
+		helpers.ClearCmd()
 		if controllers.LoggedInUser.Name == "" {
 			AuthMenu()
 		}
+
+		fmt.Println("========== MENU =========")
 		fmt.Printf("Welcome, %s\n", controllers.LoggedInUser.Name)
+		fmt.Println("_________________________")
+
 		fmt.Println("1. Read Account")
 		fmt.Println("2. Update Account")
 		fmt.Println("3. Delete Account")
@@ -47,7 +55,8 @@ func MainMenu() {
 		fmt.Println("7. History Transfer")
 		fmt.Println("8. Profile Another User")
 		fmt.Println("0. Exit")
-		fmt.Printf("Masukan pilihan anda : ")
+		fmt.Println("=========================")
+		fmt.Printf("Enter your choice : ")
 		fmt.Scanln(&choice)
 		fmt.Println()
 		if choice <= -1 || choice >= 9 {
@@ -73,5 +82,8 @@ func MainMenu() {
 			controllers.Logout()
 			break
 		}
+
+		fmt.Printf("\nPress enter key to continue")
+		fmt.Scanln()
 	}
 }
