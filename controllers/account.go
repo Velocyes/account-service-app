@@ -13,13 +13,29 @@ func ReadAccount() {
 	fmt.Println()
 }
 
-func UpdateAccount() {
+func UpdateAccount() bool {
 	name, phoneNumber, tempPhoneNumber := "", "", ""
-	fmt.Printf("Masukan nama baru anda : ")
+	fmt.Printf("Insert your new name : ")
 	fmt.Scanln(&name)
-	fmt.Printf("Masukan nomor telepon baru anda : ")
+	fmt.Printf("Insert your new phone number : ")
 	fmt.Scanln(&phoneNumber)
 	fmt.Println()
+
+	flag := true
+	if name == "" {
+		fmt.Printf("Name,")
+		flag = false
+	}
+
+	if phoneNumber == "" {
+		fmt.Printf("Phone Number,")
+		flag = false
+	}
+
+	if !flag {
+		fmt.Println(" Cannot be null.")
+		return flag
+	}
 
 	querySelectUser := "SELECT u.phone_number FROM users u WHERE u.phone_number = ?"
 	error := config.DB.QueryRow(querySelectUser, phoneNumber).Scan(&tempPhoneNumber)
@@ -37,6 +53,8 @@ func UpdateAccount() {
 		fmt.Println("Nomor telepon sudah digunakan")
 	}
 	fmt.Println()
+
+	return true
 }
 
 func DeleteAccount() {

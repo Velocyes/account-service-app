@@ -41,13 +41,34 @@ func Login() bool {
 
 func Register() bool {
 	user, phoneNumber := entities.User{}, ""
-	fmt.Printf("Masukan nama : ")
+	fmt.Printf("Insert your name : ")
 	fmt.Scanln(&user.Name)
-	fmt.Printf("Masukan nomor telepon : ")
+	fmt.Printf("Insert your phone number : ")
 	fmt.Scanln(&user.PhoneNumber)
-	fmt.Printf("Masukan password : ")
+	fmt.Printf("Insert password : ")
 	fmt.Scanln(&user.Password)
 	fmt.Println()
+
+	flag := true
+	if user.Name == "" {
+		fmt.Printf("Name,")
+		flag = false
+	}
+
+	if user.PhoneNumber == "" {
+		fmt.Printf("Phone Number,")
+		flag = false
+	}
+
+	if user.Password == "" {
+		fmt.Printf("Password,")
+		flag = false
+	}
+
+	if !flag {
+		fmt.Println(" Cannot be null.")
+		return flag
+	}
 
 	queryCreateUser := "SELECT u.phone_number FROM users u WHERE u.phone_number = ?"
 	error := config.DB.QueryRow(queryCreateUser, user.PhoneNumber).Scan(&phoneNumber)
@@ -74,7 +95,7 @@ func Register() bool {
 		fmt.Println()
 		return true
 	} else {
-		fmt.Println("Credential is already used")
+		fmt.Println("Credential is aslready used")
 	}
 
 	return false
