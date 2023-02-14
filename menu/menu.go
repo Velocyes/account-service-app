@@ -17,11 +17,11 @@ func AuthMenu() {
 		if choice <= -1 || choice >= 3 {
 			continue
 		}
-		if choice == 1{
+		if choice == 1 {
 			if controllers.Login() {
 				MainMenu()
 			}
-		} else if choice == 2{
+		} else if choice == 2 {
 			if controllers.Register() {
 				MainMenu()
 			}
@@ -50,26 +50,26 @@ func MainMenu() {
 		fmt.Printf("Masukan pilihan anda : ")
 		fmt.Scanln(&choice)
 		fmt.Println()
-		if choice <= -1 || choice >= 8 {
+		if choice <= -1 || choice > 8 {
 			continue
 		}
-		if choice == 1{
+		if choice == 1 {
 			controllers.ReadAccount()
-		} else if choice == 2{
+		} else if choice == 2 {
 			controllers.UpdateAccount()
-		} else if choice == 3{
+		} else if choice == 3 {
 			controllers.DeleteAccount()
-		} else if choice == 4{
+		} else if choice == 4 {
 			controllers.TopUp()
-		} else if choice == 5{
+		} else if choice == 5 {
 			controllers.Transfer()
-		} else if choice == 6{
+		} else if choice == 6 {
 			controllers.HistoryTopups()
-		} else if choice == 7{
+		} else if choice == 7 {
 			controllers.HistoryTransfer()
-		} else if choice == 8{
-			
-		} else if choice == 0{
+		} else if choice == 8 {
+			controllers.ReadUser()
+		} else if choice == 0 {
 			controllers.Logout()
 			break
 		}

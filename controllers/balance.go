@@ -15,7 +15,7 @@ func GetSaldo(user_id int) float64 {
 
 func ChangeSaldo(user_id int, nominal float64) bool {
 	queryUpdate := "UPDATE balances SET total_balance = total_balance + ? WHERE user_id = ?"
-	_, errInsert := config.DB.Exec(queryUpdate, nominal, LoggedInUser.ID)
+	_, errInsert := config.DB.Exec(queryUpdate, nominal, user_id)
 	if errInsert != nil {
 		fmt.Println(errInsert.Error())
 		return false

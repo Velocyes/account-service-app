@@ -26,7 +26,7 @@ func TopUp() {
 }
 
 func HistoryTopups() {
-	rows, err := config.DB.Query("SELECT hb.total, hb.created_at FROM history_balances hb WHERE hb.user_id = ? AND hb.balance_type_id = 1", LoggedInUser.ID)
+	rows, err := config.DB.Query("SELECT hb.total, hb.created_at FROM history_balances hb WHERE hb.user_id = ? AND hb.balance_type_id = 1 order by hb.id DESC", LoggedInUser.ID)
 	if err != nil {
 		fmt.Println(err.Error())
 		return

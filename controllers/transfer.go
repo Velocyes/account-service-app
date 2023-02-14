@@ -12,7 +12,7 @@ func Transfer() bool {
 	//cek ada atau tidak
 	CheckUserExist, user := CheckUserExist(phoneNumber)
 	if !CheckUserExist {
-		fmt.Println("Data penerima ada")
+		fmt.Println("Data penerima tidak ada")
 		return false
 	}
 
@@ -37,13 +37,12 @@ func Transfer() bool {
 		return true
 	}
 
-	fmt.Println("Insert Success!")
+	fmt.Println("Transfer Success!")
 
 	return true
 }
 
 type HasilHistoryTransfer struct {
-	ID           int
 	UserPenerima string
 	Tipe         string
 	Total        string
@@ -51,22 +50,22 @@ type HasilHistoryTransfer struct {
 }
 
 func HistoryTransfer() {
-	rows, err := config.DB.Query("select h.id,u.name,b.balance_type,h.total,h.created_at from history_balances h,users u,balance_types b where h.balance_type_id = b.id AND h.user_id_to = u.id AND user_id = ? order by h.id DESC", LoggedInUser.ID)
+	rows, err := config.DB.Query("select u.name,b.balance_type,h.total,h.created_at from history_balances h,users u,balance_types b where h.balance_type_id = b.id AND h.user_id_to = u.id AND user_id = ? order by h.id DESC", LoggedInUser.ID)
 	if err != nil {
 		fmt.Println(err.Error())
 		return
 	}
 
+	fmt.Println("Transfer history :")
 	for rows.Next() {
 		var response HasilHistoryTransfer
 		rows.Scan(
-			&response.ID,
 			&response.UserPenerima,
 			&response.Tipe,
 			&response.Total,
 			&response.Date,
 		)
 
-		fmt.Println(response)
+		fmt.Println(response.Total + " | Penerima : " + response.UserPenerima + ", " + response.Date)
 	}
 }

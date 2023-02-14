@@ -49,11 +49,27 @@ func DeleteAccount() {
 	}
 }
 
+func ReadUser() {
+	var phoneNumber string
+	fmt.Println("Masukan nomor telepon")
+	fmt.Scanln(&phoneNumber)
+	CheckUserExist, user := CheckUserExist(phoneNumber)
+	if !CheckUserExist {
+		fmt.Println("User Not Found")
+	} else {
+		fmt.Println("--User Profile--")
+		fmt.Println("Name :", user.Name)
+		fmt.Println("Number Phone :", user.PhoneNumber)
+	}
+	fmt.Println()
+}
+
 func CheckUserExist(phoneNumber string) (bool, entities.User) {
 	var user entities.User
-	querySelect := "SELECT * FROM balances u WHERE u.user_id =  ?"
-	config.DB.QueryRow(querySelect, phoneNumber).Scan(&user)
-	if user.Name != "" {
+	querySelect := "SELECT id,name,phone_number FROM users u WHERE u.phone_number =  ?"
+	config.DB.QueryRow(querySelect, phoneNumber).Scan(&user.ID, &user.Name, &user.PhoneNumber)
+
+	if user.Name == "" {
 		return false, user
 	}
 
