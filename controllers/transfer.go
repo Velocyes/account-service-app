@@ -8,11 +8,17 @@ import (
 
 func Transfer() bool {
 	helpers.ClearCmd()
-	fmt.Println("======= Transfer ========")
+	fmt.Println("============= Transfer =============")
 
 	phoneNumber, nominal := "", 0
 	fmt.Printf("Enter the recipient's phone number : ")
 	fmt.Scanln(&phoneNumber)
+	fmt.Println()
+	if phoneNumber == LoggedInUser.PhoneNumber {
+		fmt.Println("Can't transfer to your own number")
+		return false
+	}
+
 	//cek ada atau tidak
 	CheckUserExist, user := CheckUserExist(phoneNumber)
 	if !CheckUserExist {
@@ -24,6 +30,7 @@ func Transfer() bool {
 	fmt.Printf("Enter your Transfer nominal : ")
 	fmt.Scanln(&nominal)
 	//cek jika nominal tersisa lebih besar dari yang di transfers
+	fmt.Println()
 	if saldo := GetSaldo(int(LoggedInUser.ID)); saldo < float64(nominal) {
 		fmt.Println("Your balance is insufficient")
 		return false
@@ -61,7 +68,7 @@ type HasilHistoryTransfer struct {
 
 func HistoryTransfer() {
 	helpers.ClearCmd()
-	fmt.Println("======= History Transfer ========")
+	fmt.Println("========= History Transfer =========")
 
 	rows, err := config.DB.Query("select u.name,b.balance_type,h.total,h.created_at from history_balances h,users u,balance_types b where h.balance_type_id = b.id AND h.user_id_to = u.id AND user_id = ? order by h.id DESC", LoggedInUser.ID)
 	if err != nil {
@@ -69,7 +76,6 @@ func HistoryTransfer() {
 		return
 	}
 
-	fmt.Println("Transfer history :")
 	for rows.Next() {
 		var response HasilHistoryTransfer
 		rows.Scan(

@@ -13,25 +13,25 @@ import (
 
 func ReadAccount() {
 	helpers.ClearCmd()
-	fmt.Println("========= Account ========")
-	fmt.Printf("Nama \t\t: %s\n", LoggedInUser.Name)
-	fmt.Printf("Nomor Telepon \t: %s\n", LoggedInUser.PhoneNumber)
-	fmt.Printf("Saldo \t\t: %.2f\n", GetSaldo(int(LoggedInUser.ID)))
+	fmt.Println("============== Account =============")
 	fmt.Println()
+	fmt.Printf("Name \t\t: %s\n", LoggedInUser.Name)
+	fmt.Printf("Phone Number \t: %s\n", LoggedInUser.PhoneNumber)
+	fmt.Printf("Balance \t: Rp. %.2f\n", GetSaldo(int(LoggedInUser.ID)))
 }
 
 func UpdateAccount() bool {
 	helpers.ClearCmd()
-	fmt.Println("====== Update Account =======")
+	fmt.Println("========== Update Account ==========")
 	name, phoneNumber, tempPhoneNumber := "", "", ""
-	fmt.Printf("Insert your new name : ")
+	fmt.Printf("Insert new name \t: ")
 
 	scanner := bufio.NewScanner(os.Stdin)
 	if scanner.Scan() {
 		text := scanner.Text()
 		name = text
 	}
-	fmt.Printf("Insert your new phone number : ")
+	fmt.Printf("Insert new phone number : ")
 	fmt.Scanln(&phoneNumber)
 	fmt.Println()
 
@@ -81,19 +81,20 @@ func UpdateAccount() bool {
 	} else {
 		fmt.Println("The Phone Number is Already in Use")
 	}
-	fmt.Println()
 
 	return true
 }
 
 func DeleteAccount() bool {
 	helpers.ClearCmd()
-	fmt.Println("======= Delete Account =======")
+	fmt.Println("========== Delete Account ==========")
 	fmt.Println("Are you sure to delete this account ?")
-	fmt.Println("Y -> Yes, N -> No")
+	fmt.Println()
+	fmt.Println("Type")
+	fmt.Println("Y   -->  Yes   |    N   -->  Cancel")
+	fmt.Println()
 	flag := ""
 	fmt.Scanln(&flag)
-
 	if flag == "Y" || flag == "y" {
 		queryUpdate := "DELETE FROM users WHERE id = ?"
 		_, errInsert := config.DB.Exec(queryUpdate, LoggedInUser.ID)
@@ -103,27 +104,28 @@ func DeleteAccount() bool {
 			LoggedInUser = entities.User{}
 		}
 
+		fmt.Println("Data is Deleted")
 		return true
 	}
 
+	fmt.Println("Data is not Deleted")
 	return true
 }
 
 func ReadUser() {
 	helpers.ClearCmd()
-	fmt.Println("========= PROFILE ========")
-
+	fmt.Println("============= Profile ==============")
 	var phoneNumber string
-	fmt.Printf("Enter the phone number :")
+	fmt.Printf("Enter the phone number : ")
 	fmt.Scanln(&phoneNumber)
+	fmt.Println()
 	CheckUserExist, user := CheckUserExist(phoneNumber)
 	if !CheckUserExist {
 		fmt.Println("User Not Found")
 	} else {
 		fmt.Println("Name \t\t:", user.Name)
-		fmt.Println("Number Phone \t:", user.PhoneNumber)
+		fmt.Println("Phone Number \t:", user.PhoneNumber)
 	}
-	fmt.Println()
 }
 
 func CheckUserExist(phoneNumber string) (bool, entities.User) {
