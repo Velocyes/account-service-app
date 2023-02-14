@@ -1,9 +1,12 @@
 package entities
 
-import "gorm.io/gorm"
+import "time"
 
 type HistoryBalance struct {
-	gorm.Model
+	ID            uint
+	CreatedAt     time.Time    `json:"created_at"`
+	UpdatedAt     time.Time    `json:"updated_at"`
+	DeletedAt     time.Time    `json:"deleted_at"`
 	UserId        int          `json:"user_id"`
 	User          *User        `gorm:"foreignKey:UserId"`
 	UserIdTo      int          `json:"user_id_to"`

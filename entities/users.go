@@ -1,10 +1,13 @@
 package entities
 
-import "gorm.io/gorm"
+import "time"
 
 type User struct {
-	gorm.Model
-	Name        string `json:"name"`
-	Password    string `json:"password"`
-	PhoneNumber string `json:"phone_number"`
+	ID          uint
+	CreatedAt   time.Time `json:"created_at"`
+	UpdatedAt   time.Time `json:"updated_at"`
+	DeletedAt   time.Time `json:"deleted_at"`
+	Name        string    `json:"name"`
+	Password    string    `json:"password"`
+	PhoneNumber string    `json:"phone_number"`
 }

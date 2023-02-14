@@ -1,8 +1,11 @@
 package entities
 
-import "gorm.io/gorm"
+import "time"
 
 type BalanceType struct {
-	gorm.Model
-	BalanceType string `json:"balance_type"`
+	ID          uint
+	CreatedAt   time.Time `json:"created_at"`
+	UpdatedAt   time.Time `json:"updated_at"`
+	DeletedAt   time.Time `json:"deleted_at"`
+	BalanceType string    `json:"balance_type"`
 }
