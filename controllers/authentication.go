@@ -20,8 +20,9 @@ func Login() bool {
 	querySelectUser := "SELECT u.id, u.name, u.phone_number FROM users u WHERE u.phone_number = ? AND password = ?"
 	error := config.DB.QueryRow(querySelectUser, phoneNumber, password).Scan(&user.ID, &user.Name, &user.PhoneNumber)
 	if error != nil {
-		fmt.Println("Credential is wrong or user doesn't exists")
 		LoggedInUser = entities.User{}
+		fmt.Println("Credential is wrong or user doesn't exists")
+		fmt.Println()
 	} else {
 		LoggedInUser = user
 		return true
@@ -50,16 +51,17 @@ func Register() bool {
 			id, _ := result.LastInsertId()
 			user.ID = uint(id)
 			LoggedInUser = user
-			fmt.Println("Register success")
 		}
 
-		//insert balance
+		//Insert initial balance
 		saldo := 0
 		fmt.Printf("Masukan saldo awal user : ")
 		fmt.Scanln(&saldo)
 		user_id, _ := result.LastInsertId()
 		config.DB.Exec("INSERT INTO balances (user_id, total_balance) VALUES (?, ?)", user_id, saldo)
 
+		fmt.Println("Register success")
+		fmt.Println()
 		return true
 	} else {
 		fmt.Println("Credential is already used")

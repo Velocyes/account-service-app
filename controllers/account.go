@@ -7,9 +7,9 @@ import (
 )
 
 func ReadAccount() {
-	fmt.Printf("ID : %d\n", LoggedInUser.ID)
 	fmt.Printf("Nama : %s\n", LoggedInUser.Name)
 	fmt.Printf("Nomor Telepon : %s\n", LoggedInUser.PhoneNumber)
+	fmt.Printf("Saldo : %.2f\n", GetSaldo(int(LoggedInUser.ID)))
 	fmt.Println()
 }
 
@@ -47,4 +47,15 @@ func DeleteAccount() {
 	} else {
 		LoggedInUser = entities.User{}
 	}
+}
+
+func CheckUserExist(phoneNumber string) (bool, entities.User) {
+	var user entities.User
+	querySelect := "SELECT * FROM balances u WHERE u.user_id =  ?"
+	config.DB.QueryRow(querySelect, phoneNumber).Scan(&user)
+	if user.Name != "" {
+		return false, user
+	}
+
+	return true, user
 }

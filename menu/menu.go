@@ -60,13 +60,13 @@ func MainMenu() {
 		} else if choice == 3{
 			controllers.DeleteAccount()
 		} else if choice == 4{
-			
+			controllers.TopUp()
 		} else if choice == 5{
-			
+			controllers.Transfer()
 		} else if choice == 6{
-			
+			controllers.HistoryTopups()
 		} else if choice == 7{
-			
+			controllers.HistoryTransfer()
 		} else if choice == 8{
 			
 		} else if choice == 0{
