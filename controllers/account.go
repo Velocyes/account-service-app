@@ -35,20 +35,12 @@ func UpdateAccount() bool {
 	fmt.Scanln(&phoneNumber)
 	fmt.Println()
 
-	flag := true
 	if name == "" {
-		fmt.Printf("Name,")
-		flag = false
+		name = LoggedInUser.Name
 	}
 
 	if phoneNumber == "" {
-		fmt.Printf("Phone Number,")
-		flag = false
-	}
-
-	if !flag {
-		fmt.Println(" Cannot be null.")
-		return flag
+		phoneNumber = LoggedInUser.PhoneNumber
 	}
 
 	_, err := strconv.Atoi(phoneNumber)

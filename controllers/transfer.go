@@ -4,6 +4,7 @@ import (
 	"account-service-app/config"
 	"account-service-app/helpers"
 	"fmt"
+	"time"
 )
 
 func Transfer() bool {
@@ -63,7 +64,7 @@ type HasilHistoryTransfer struct {
 	UserPenerima string
 	Tipe         string
 	Total        string
-	Date         string
+	Date         time.Time
 }
 
 func HistoryTransfer() {
@@ -85,6 +86,6 @@ func HistoryTransfer() {
 			&response.Date,
 		)
 
-		fmt.Println(response.Total + " | Recipient : " + response.UserPenerima + ", " + response.Date)
+		fmt.Println(response.Total + " | Recipient : " + response.UserPenerima + " | " + response.Date.Format(time.RFC1123))
 	}
 }
