@@ -96,11 +96,11 @@ func DeleteAccount() bool {
 			LoggedInUser = entities.User{}
 		}
 
-		fmt.Println("Data is Deleted")
+		fmt.Println("Account is Deleted")
 		return true
 	}
 
-	fmt.Println("Data is not Deleted")
+	fmt.Println("Account is not Deleted")
 	return true
 }
 

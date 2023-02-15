@@ -28,7 +28,7 @@ func Transfer() bool {
 	}
 
 	fmt.Println("Transfer to", user.Name)
-	fmt.Printf("Enter your Transfer nominal : ")
+	fmt.Printf("Enter your Transfer nominal (Minimum 100): ")
 	fmt.Scanln(&nominal)
 	//cek jika nominal tersisa lebih besar dari yang di transfers
 	fmt.Println()

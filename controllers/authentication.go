@@ -113,7 +113,7 @@ func Register() bool {
 		fmt.Println()
 		return true
 	} else {
-		fmt.Println("Credential is aslready used")
+		fmt.Println("Credential is already used")
 	}
 	return false
 }
