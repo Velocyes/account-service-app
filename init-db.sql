@@ -11,7 +11,7 @@ CREATE TABLE `users` (
   `password` longtext,
   `phone_number` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `phone_number` (`phone_number`),
+  UNIQUE KEY `phone_number` (`phone_nuamber`),
   KEY `idx_users_deleted_at` (`deleted_at`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
